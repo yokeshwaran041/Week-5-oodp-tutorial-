@@ -1,0 +1,83 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Car {
+private:
+    string model;
+    float pricePerDay;
+    bool isAvailable;
+
+public:
+    Car() {
+        model = "Unknown";
+        pricePerDay = 1000.0;
+        isAvailable = true;
+    }
+
+    Car(string m, float price, bool available) {
+        model = m;
+        pricePerDay = price;
+        isAvailable = available;
+    }
+
+    Car(const Car& c) {
+        model = c.model;
+        pricePerDay = c.pricePerDay;
+        isAvailable = c.isAvailable;
+    }
+
+    float bookCar(int days) {
+        return days * pricePerDay;
+    }
+
+    float bookCar(float discountPercent) {
+        return pricePerDay - (pricePerDay * (discountPercent / 100.0));
+    }
+
+    float bookCar(int days, float insurance) {
+        return (days * pricePerDay) + insurance;
+    }
+
+    float getPricePerDay() const {
+        return pricePerDay;
+    }
+
+    friend float operator+(const Car& c1, const Car& c2) {
+        return c1.pricePerDay + c2.pricePerDay;
+    }
+
+    bool operator>(const Car& other) {
+        return this->pricePerDay > other.pricePerDay;
+    }
+
+    void display() const {
+        cout << "Model: " << model << endl;
+        cout << "Price per Day: " << pricePerDay << endl;
+        cout << "Available: " << (isAvailable ? "Yes" : "No") << endl;
+    }
+};
+
+int main() {
+    Car car1("Sedan", 1500.0, true);
+    Car car2("SUV", 2000.0, true);
+    Car car3 = car2;
+
+    car1.display();
+    cout << "Booking car1 for 3 days: " << car1.bookCar(3) << endl;
+    cout << "Booking car1 with 10% discount: " << car1.bookCar(10.0f) << endl;
+    cout << "Booking car1 for 3 days with 500 insurance: " << car1.bookCar(3, 500.0f) << endl;
+
+    float total = car1 + car2;
+    cout << "Total rental price of car1 and car2 per day: " << total << endl;
+
+    if (car1 > car2)
+        cout << "Car1 is more expensive than Car2" << endl;
+    else
+        cout << "Car2 is more expensive than or equal to Car1" << endl;
+
+    cout << "\nCopied Car (car3) details:\n";
+    car3.display();
+
+    return 0;
+}
