@@ -1,0 +1,70 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class BankAccount {
+private:
+    int accountNumber;
+    double balance;
+
+public:
+    BankAccount() {
+        accountNumber = 0;
+        balance = 0.0;
+    }
+
+    BankAccount(int accNo, double bal) {
+        accountNumber = accNo;
+        balance = bal;
+    }
+
+    void deposit(int amount) {
+        balance += amount;
+    }
+
+    void deposit(double amount) {
+        balance += amount;
+    }
+
+    void withdraw(int amount) {
+        if (amount <= balance)
+            balance -= amount;
+        else
+            cout << "Insufficient balance" << endl;
+    }
+
+    void withdraw(double amount) {
+        if (amount <= balance)
+            balance -= amount;
+        else
+            cout << "Insufficient balance" << endl;
+    }
+
+    bool operator>(const BankAccount& other) {
+        return this->balance > other.balance;
+    }
+
+    void display() {
+        cout << "Account Number: " << accountNumber << endl;
+        cout << "Balance: " << balance << endl;
+    }
+};
+
+int main() {
+    BankAccount acc1(1001, 5000.50);
+    BankAccount acc2(1002, 3000.75);
+
+    acc1.deposit(1000);
+    acc2.withdraw(500.25);
+
+    acc1.display();
+    cout << endl;
+    acc2.display();
+
+    if (acc1 > acc2)
+        cout << "\nAccount 1 has more balance than Account 2." << endl;
+    else
+        cout << "\nAccount 2 has more balance than or equal to Account 1." << endl;
+
+    return 0;
+}
